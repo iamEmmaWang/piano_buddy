@@ -8,23 +8,24 @@ import 'Mode.dart';
 class Song{
   String songName;
   String composer;
-  List<Mode> modes = [
-    Mode(modeVal: "1", pianoPlay: "First Piano"),
-    Mode(modeVal: "2", pianoPlay: "Second Piano"),
-    Mode(modeVal: "3", pianoPlay: "Both")
-  ];
+  List<Mode> modes;
 
 
   static List<Song> getSongs() {
     return [
-      Song(songName: "Miniature Concerto", composer: "Alec Rowley!!!!"),
-      Song(songName: "Concerto in A minor", composer: "Edvard Grieg"),
-      Song(songName: "Concerto in C major", composer: "Antonio Vivaldi"),
-      Song(songName: "Concerto in D major", composer: "Bach"),
-      Song(songName: "Concerto in G major", composer: "Wolfgang Amadeus Mozart"),
+      Song(songName: "Miniature Concerto", composer: "Alec Rowley!!!!", modes: [Mode(modeVal: "1", pianoPlay: "Piano 1", audioPath: "song_files/baby_shark.mp3"),
+        Mode(modeVal: "2", pianoPlay: "Piano 2", audioPath: "song_files/baby_shark.mp3"),
+        Mode(modeVal: "3", pianoPlay: "Both", audioPath: "")]
+      ),
+      Song(songName: "Concerto in A minor", composer: "Edvard Grieg", modes: [Mode(modeVal: "1", pianoPlay: "Piano 1", audioPath: "song_files/baby_shark.mp3"),
+        Mode(modeVal: "2", pianoPlay: "Piano 2", audioPath: "song_files/baby_shark.mp3"),
+        Mode(modeVal: "3", pianoPlay: "Both", audioPath: "")]),
+      Song(songName: "Concerto in C major", composer: "Antonio Vivaldi", modes: [Mode(modeVal: "1", pianoPlay: "Piano 1", audioPath: "song_files/baby_shark.mp3"),
+        Mode(modeVal: "2", pianoPlay: "Piano 2", audioPath: "song_files/baby_shark.mp3"),
+        Mode(modeVal: "3", pianoPlay: "Both", audioPath: "")]),
     ];
   }
-  Song({required this.songName, required this.composer});
+  Song({required this.songName, required this.composer, required this.modes});
 }
 
 
