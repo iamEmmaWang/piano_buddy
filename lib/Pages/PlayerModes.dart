@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:piano_buddy/Models/Song.dart";
+import 'package:piano_buddy/Pages/SongPlayer.dart';
 
 class PlayerModes extends StatelessWidget {
   const PlayerModes({Key? key, required this.data}) : super(key: key);
@@ -24,6 +25,11 @@ class PlayerModes extends StatelessWidget {
                 title: Text("Mode ${data.modes[index].modeVal}"),
                 subtitle: Text("Plays: ${data.modes[index].pianoPlay}"),
                 trailing: const Icon(Icons.menu),
+                onTap: (){
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context)=>const SongPlayer())
+                  );
+                },
               ),
             ),
           );
