@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
-class SongPlayer extends StatefulWidget {
-  const SongPlayer({Key? key}) : super(key: key);
+import 'package:piano_buddy/Models/Mode.dart';
 
+class SongPlayer extends StatefulWidget {
+  const SongPlayer({Key? key, required this.modeval}) : super(key: key);
+  final String modeval;
   @override
   State<SongPlayer> createState() => _SongPlayerState();
 }
