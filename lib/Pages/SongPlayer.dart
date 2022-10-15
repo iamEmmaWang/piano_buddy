@@ -10,24 +10,38 @@ class SongPlayer extends StatefulWidget {
   State<SongPlayer> createState() => _SongPlayerState();
 }
 
-class _SongPlayerState extends State<SongPlayer> {
+class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateMixin {
   AssetsAudioPlayer player = AssetsAudioPlayer();
+  late AnimationController iconController;
+  bool isPlaying = false;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    player.open(Audio("song_files/emodam.mp3"));
+    iconController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
+    player.open(Audio("song_files/emodam.mp3"), autoStart: false);
   }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Mode ${widget.modeVal} Playing ${widget.playMode}"),
       ),
-      body: Center(
-        child: ElevatedButton(onPressed: (){
-          player.play();
-        }, child: Text("Are you hurt?"),),
-      )
+      body: Container(
+        child: GestureDetector(
+          child: AnimatedIcon(
+            size: 100,
+            icon: AnimatedIcons.play_pause,
+            progress: iconController,
+          ),
+          onTap: () {
+              setState(() {
+                isPlaying != isPlaying;
+                isPlaying ? iconController.forward() : iconController.reverse();
+              });
+          },
+        ),
+      ),
     );
   }
+
 }
