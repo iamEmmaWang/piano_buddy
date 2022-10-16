@@ -27,7 +27,7 @@ class PlayerModes extends StatelessWidget {
                 trailing: const Icon(Icons.menu),
                 onTap: (){
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context)=>SongPlayer(modeVal: data.modes[index].modeVal, playMode: data.modes[index].pianoPlay,))
+                      context, MaterialPageRoute(builder: (context)=>SongPlayer(modeVal: data.modes[index].modeVal, playMode: data.modes[index].pianoPlay, audioPath: data.modes[index].audioPath,))
                   );
                 },
               ),

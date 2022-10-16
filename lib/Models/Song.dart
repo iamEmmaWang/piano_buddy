@@ -22,7 +22,7 @@ class Song{
         Mode(modeVal: "3", pianoPlay: "Both", audioPath: "")]),
       Song(songName: "Concerto in C major", composer: "Antonio Vivaldi", modes: [Mode(modeVal: "1", pianoPlay: "Piano 1", audioPath: "song_files/baby_shark.mp3"),
         Mode(modeVal: "2", pianoPlay: "Piano 2", audioPath: "song_files/baby_shark.mp3"),
-        Mode(modeVal: "3", pianoPlay: "Both", audioPath: "")]),
+        Mode(modeVal: "3", pianoPlay: "Both", audioPath: "song_files/emodam.mp3")]),
     ];
   }
   Song({required this.songName, required this.composer, required this.modes});
