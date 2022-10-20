@@ -37,7 +37,7 @@ class _SplashState extends State<Splash> {
             children: [
               Container(
                 margin: const EdgeInsets.all(20),
-                padding: EdgeInsets.only(top: 700),
+                padding: EdgeInsets.only(top: 450),
 
                 child: const Text(
                   "CopyRight Concerto Buddy Inc -Emma Wang",
