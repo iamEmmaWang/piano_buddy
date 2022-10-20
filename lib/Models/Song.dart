@@ -14,7 +14,7 @@ class Song{
   static List<Song> getSongs() {
     return [
       Song(songName: "Miniature Concerto", composer: "Alec Rowley!!!!", modes: [Mode(modeVal: "1", pianoPlay: "Piano 1", audioPath: "song_files/baby_shark.mp3"),
-        Mode(modeVal: "2", pianoPlay: "Piano 2", audioPath: "song_files/baby_shark.mp3"),
+        Mode(modeVal: "2", pianoPlay: "Piano 2", audioPath: "song_files/MinCo/MinCo_Mvv1_Pn2.mp3"),
         Mode(modeVal: "3", pianoPlay: "Both", audioPath: "")]
       ),
       Song(songName: "Concerto in A minor", composer: "Edvard Grieg", modes: [Mode(modeVal: "1", pianoPlay: "Piano 1", audioPath: "song_files/baby_shark.mp3"),
