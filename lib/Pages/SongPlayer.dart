@@ -74,11 +74,9 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
        isPlaying ? player.play() : player.pause();
      });
    }
-  loadDocument() async {
-
+  void loadDocument() async {
     document = await PDFDocument.fromAsset('assets/twipdf.pdf');
     setState(() => _isLoading = false);
-
   }
 }
 
