@@ -71,5 +71,7 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
        MainPlayer.isPlaying ? iconController.forward() : iconController.reverse();
      });
    }
+
+
 }
 
