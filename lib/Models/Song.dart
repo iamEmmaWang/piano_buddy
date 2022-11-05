@@ -1,32 +1,88 @@
+enum PianoPlay {primo, secondo, both}
 
+/// given a value of PianoPlay (primo, secondo, or both), returns a display string.
+String pianoPlayString(PianoPlay p)
+{
+  switch (p)
+  {
+    case PianoPlay.primo: return "primo";
+    case PianoPlay.secondo: return "secondo";
+    case PianoPlay.both: return "both";
+  }
+}
 
-/*
-* This file is the model for Song
-* Song so far will have songName, artist
-* */
-import 'Mode.dart';
+class Mode {
+  PianoPlay piano;
+  String pdfLink;
+  String audioLink;
+
+  Mode({required this.piano, required this.pdfLink, required this.audioLink});
+}
+
 class Song{
   String songName;
   String composer;
   List<Mode> modes;
 
-
-  static List<Song> getSongs() {
-    return [
-      Song(songName: "Miniature Concerto", composer: "Alec Rowley!!!!", modes: [Mode(modeVal: "1", pianoPlay: "Piano 1", audioPath: "song_files/baby_shark.mp3", pages: '/Users/narine/Documents/GitHub/piano_buddy/song_files/MinCo/twipdf.pdf'),
-        Mode(modeVal: "2", pianoPlay: "Piano 2", audioPath: "song_files/MinCo/MinCo_Mvv1_Pn2.mp3", pages: ''),
-        Mode(modeVal: "3", pianoPlay: "Both", audioPath: "", pages: '')]
-      ),
-      Song(songName: "Concerto in A minor", composer: "Edvard Grieg", modes: [Mode(modeVal: "1", pianoPlay: "Piano 1", audioPath: "song_files/baby_shark.mp3", pages: ''),
-        Mode(modeVal: "2", pianoPlay: "Piano 2", audioPath: "song_files/baby_shark.mp3", pages: ''),
-        Mode(modeVal: "3", pianoPlay: "Both", audioPath: "", pages: '')]),
-      Song(songName: "Concerto in C major", composer: "Antonio Vivaldi", modes: [Mode(modeVal: "1", pianoPlay: "Piano 1", audioPath: "song_files/baby_shark.mp3", pages: ''),
-        Mode(modeVal: "2", pianoPlay: "Piano 2", audioPath: "song_files/baby_shark.mp3", pages: ''),
-        Mode(modeVal: "3", pianoPlay: "Both", audioPath: "song_files/emodam.mp3", pages: '')]),
-    ];
-  }
   Song({required this.songName, required this.composer, required this.modes});
+
+  /// Creates a song object automatically given the song name, composer, 3 PDF links, and 3 audio links.
+  /// Links provided should be download URLs for the respective files.
+  static Song fromLinks({required String songName, required String composer, required String primoPDF, required String primoAudio, required String secondoPDF, required String secondoAudio, required String bothPDF, required String bothAudio})
+  {
+    Song s = Song(songName: songName, composer: composer, modes: []);
+    s.modes = [
+      Mode(
+        piano: PianoPlay.primo,
+        pdfLink: primoPDF,
+        audioLink: primoAudio
+      ),
+      Mode(
+        piano: PianoPlay.secondo,
+        pdfLink: secondoPDF,
+        audioLink: secondoAudio
+      ),
+      Mode(
+        piano: PianoPlay.both,
+        pdfLink: bothPDF,
+        audioLink: bothAudio
+      ),
+    ];
+    return s;
+  }
 }
 
+Map<String, Song> songDictionary = {
+  "Moderato": Song.fromLinks(
+      songName: "Moderato",
+      composer: "Cornelius Gurlitt",
+      primoPDF: "https://www.free-scores.com/PDF_EN/gurlitt-cornelius-moderato-183875.pdf",
+      primoAudio: "https://www.free-scores.com/MP3SUPT/gurlitt-cornelius-moderato-9646-183875.mp3",
+      secondoPDF: "https://www.free-scores.com/PDF_EN/gurlitt-cornelius-moderato-183875.pdf",
+      secondoAudio: "https://www.free-scores.com/MP3SUPT/gurlitt-cornelius-moderato-2967-183875.mp3",
+      bothPDF: "https://www.free-scores.com/PDF_EN/gurlitt-cornelius-moderato-183875.pdf",
+      bothAudio: "https://www.free-scores.com/MP3T/gurlitt-cornelius-moderato-183875.mp3"
+  ),
+  "Rondino": Song.fromLinks(
+      songName: "Rondino",
+      composer: "Joseph Hadyn",
+      primoPDF: "https://www.free-scores.com/PDFSUP_EN/haydn-joseph-rondino-primo-7237-181025.pdf",
+      primoAudio: "https://www.free-scores.com/MP3SUPT/haydn-joseph-rondino-8534-181025.mp3",
+      secondoPDF: "https://www.free-scores.com/PDFSUP_EN/haydn-joseph-rondino-secondo-6239-181025.pdf",
+      secondoAudio: "https://www.free-scores.com/MP3SUPT/haydn-joseph-rondino-4007-181025.mp3",
+      bothPDF: "https://www.free-scores.com/PDF_EN/haydn-joseph-rondino-181025-684.pdf",
+      bothAudio: "https://www.free-scores.com/MP3T/haydn-joseph-rondino-181025-684.mp3"
+  ),
+  "Menuet": Song.fromLinks(
+      songName: "Menuet",
+      composer: "Amadeus Mozart",
+      primoPDF: "https://www.free-scores.com/PDFSUP_EN/mozart-wolfgang-amadeus-menuet-primo-3218-180183.pdf",
+      primoAudio: "https://www.free-scores.com/MP3SUPT/mozart-wolfgang-amadeus-menuet-3256-180183.mp3",
+      secondoPDF: "https://www.free-scores.com/PDFSUP_EN/mozart-wolfgang-amadeus-menuet-secondo-3623-180183.pdf",
+      secondoAudio: "https://www.free-scores.com/MP3SUPT/mozart-wolfgang-amadeus-menuet-950-180183.mp3",
+      bothPDF: "https://www.free-scores.com/PDF_EN/mozart-wolfgang-amadeus-menuet-180183.pdf",
+      bothAudio: "https://www.free-scores.com/MP3T/mozart-wolfgang-amadeus-menuet-180183.mp3"
+  ),
+};
 
 

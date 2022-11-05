@@ -1,84 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
-
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:internet_file/internet_file.dart';
+import 'package:pdfx/pdfx.dart';
+import 'package:piano_buddy/Models/Song.dart';
+import '../MainPlayer.dart';
 
 class SongPlayer extends StatefulWidget {
-  const SongPlayer({Key? key, required this.modeVal, required this.playMode, required this.audioPath}) : super(key: key);
-  final String modeVal;
-  final String playMode;
-  final String audioPath;
+  const SongPlayer({Key? key, required this.mode}) : super(key: key);
+  final Mode mode;
 
   @override
   State<SongPlayer> createState() => _SongPlayerState();
 }
 
 class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateMixin {
-  // Load from assets
-  late PDFDocument document;
-  bool _isLoading = true;
 
-  AssetsAudioPlayer player = AssetsAudioPlayer();
+  late Mode mode = widget.mode;
   late AnimationController iconController;
-  bool isPlaying = false;
+  late final pdfController = PdfController(document: PdfDocument.openData(InternetFile.get(mode.pdfLink)));
+
   @override
   void initState() {
     super.initState();
-    loadDocument();
+
+    //don't let audio from other screens play on this one!
+    if (MainPlayer.isPlaying) MainPlayer.stop();
+
+    //give player url from mode
+    MainPlayer.loadURL(mode.audioLink);
+    print(MainPlayer.isPlaying);
+
     iconController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
-    player.open(Audio(widget.audioPath), autoStart: false, showNotification: true);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Mode ${widget.modeVal} Playing ${widget.playMode}"),
+        title: Text("Playing ${pianoPlayString(mode.piano)}"),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-              child: Center(
-                child: _isLoading
-                    ? Center(child: CircularProgressIndicator())
-                    : PDFViewer(
-                  document: document,
-                  zoomSteps: 1,
-                ),
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: PdfView(
+                controller: pdfController,
+              )
             ),
-            Container(
-              child: Center(
-                child: GestureDetector(
-                  child: AnimatedIcon(
-                    size: 100,
-                    icon: AnimatedIcons.play_pause,
-                    progress: iconController,
-                  ),
-                  onTap: () {
-                    playAnimation();
-                  },
-                ),
+          ),
+          Center(
+            child: GestureDetector(
+              child: AnimatedIcon(
+                size: 100,
+                icon: AnimatedIcons.play_pause,
+                progress: iconController,
               ),
+              onTap: () {
+                playAnimation();
+                MainPlayer.isPlaying ? MainPlayer.play() : MainPlayer.pause();
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       )
     );
   }
+
    void playAnimation(){
      setState(() {
-       isPlaying = !isPlaying;
-       isPlaying ? iconController.forward() : iconController.reverse();
-       isPlaying ? player.play() : player.pause();
+       MainPlayer.isPlaying = !MainPlayer.isPlaying;
+       MainPlayer.isPlaying ? iconController.forward() : iconController.reverse();
      });
    }
-  loadDocument() async {
-
-    document = await PDFDocument.fromAsset('assets/twipdf.pdf');
-    setState(() => _isLoading = false);
-
-  }
 }
 
