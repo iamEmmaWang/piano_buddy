@@ -78,5 +78,6 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
     document = await PDFDocument.fromAsset('assets/twipdf.pdf');
     setState(() => _isLoading = false);
   }
+
 }
 
