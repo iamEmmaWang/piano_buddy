@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:piano_buddy/MainPlayer.dart';
 import "package:piano_buddy/Models/Song.dart";
 import 'package:piano_buddy/Pages/SongPlayer.dart';
 
 class PlayerModes extends StatelessWidget {
-  const PlayerModes({Key? key, required this.data}) : super(key: key);
-  final Song data;
+  const PlayerModes({Key? key, required this.song}) : super(key: key);
+  final Song song;
+
   @override
   Widget build(BuildContext context) {
+
+    //if it's playing, stop that music
+    MainPlayer.stop();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(data.songName),
+        title: Text(song.songName),
       ),
         body: ListView.builder(itemBuilder: (BuildContext context, int index){
           return Padding(
@@ -22,18 +28,17 @@ class PlayerModes extends StatelessWidget {
               ),
               child: ListTile(
                 leading: const Icon(Icons.music_note_rounded),
-                title: Text("Mode ${data.modes[index].modeVal}"),
-                subtitle: Text("Plays: ${data.modes[index].pianoPlay}"),
+                title: Text(pianoPlayString(song.modes[index].piano)),
                 trailing: const Icon(Icons.menu),
                 onTap: (){
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context)=>SongPlayer(modeVal: data.modes[index].modeVal, playMode: data.modes[index].pianoPlay, audioPath: data.modes[index].audioPath,))
+                      context, MaterialPageRoute(builder: (context)=>SongPlayer(mode: song.modes[index]))
                   );
                 },
               ),
             ),
           );
-        }, itemCount: data.modes.length)
+        }, itemCount: song.modes.length)
     );
   }
 }
