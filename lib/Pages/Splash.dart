@@ -43,7 +43,7 @@ class _SplashState extends State<Splash> {
                   "CopyRight Concerto Buddy Inc -Emma Wang",
                   style: TextStyle(fontSize: 25, color: Colors.black),
                 ),
-              )
+              ),
             ],
           ),
         ),
