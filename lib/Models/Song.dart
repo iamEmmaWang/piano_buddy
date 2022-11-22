@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
+
 enum PianoPlay {primo, secondo, both}
 
 /// given a value of PianoPlay (primo, secondo, or both), returns a display string.
@@ -52,37 +56,24 @@ class Song{
   }
 }
 
-Map<String, Song> songDictionary = {
-  "Moderato": Song.fromLinks(
-      songName: "Moderato",
-      composer: "Cornelius Gurlitt",
-      primoPDF: "https://www.free-scores.com/PDF_EN/gurlitt-cornelius-moderato-183875.pdf",
-      primoAudio: "https://www.free-scores.com/MP3SUPT/gurlitt-cornelius-moderato-9646-183875.mp3",
-      secondoPDF: "https://www.free-scores.com/PDF_EN/gurlitt-cornelius-moderato-183875.pdf",
-      secondoAudio: "https://www.free-scores.com/MP3SUPT/gurlitt-cornelius-moderato-2967-183875.mp3",
-      bothPDF: "https://www.free-scores.com/PDF_EN/gurlitt-cornelius-moderato-183875.pdf",
-      bothAudio: "https://www.free-scores.com/MP3T/gurlitt-cornelius-moderato-183875.mp3"
-  ),
-  "Rondino": Song.fromLinks(
-      songName: "Rondino",
-      composer: "Joseph Hadyn",
-      primoPDF: "https://www.free-scores.com/PDFSUP_EN/haydn-joseph-rondino-primo-7237-181025.pdf",
-      primoAudio: "https://www.free-scores.com/MP3SUPT/haydn-joseph-rondino-8534-181025.mp3",
-      secondoPDF: "https://www.free-scores.com/PDFSUP_EN/haydn-joseph-rondino-secondo-6239-181025.pdf",
-      secondoAudio: "https://www.free-scores.com/MP3SUPT/haydn-joseph-rondino-4007-181025.mp3",
-      bothPDF: "https://www.free-scores.com/PDF_EN/haydn-joseph-rondino-181025-684.pdf",
-      bothAudio: "https://www.free-scores.com/MP3T/haydn-joseph-rondino-181025-684.mp3"
-  ),
-  "Menuet": Song.fromLinks(
-      songName: "Menuet",
-      composer: "Amadeus Mozart",
-      primoPDF: "https://www.free-scores.com/PDFSUP_EN/mozart-wolfgang-amadeus-menuet-primo-3218-180183.pdf",
-      primoAudio: "https://www.free-scores.com/MP3SUPT/mozart-wolfgang-amadeus-menuet-3256-180183.mp3",
-      secondoPDF: "https://www.free-scores.com/PDFSUP_EN/mozart-wolfgang-amadeus-menuet-secondo-3623-180183.pdf",
-      secondoAudio: "https://www.free-scores.com/MP3SUPT/mozart-wolfgang-amadeus-menuet-950-180183.mp3",
-      bothPDF: "https://www.free-scores.com/PDF_EN/mozart-wolfgang-amadeus-menuet-180183.pdf",
-      bothAudio: "https://www.free-scores.com/MP3T/mozart-wolfgang-amadeus-menuet-180183.mp3"
-  ),
-};
+Map<String, Song> songDictionary = {};
 
+Future<void> getSongDictionary() async {
+  songDictionary.clear();
+  const String REQUEST_URL = "https://MasterSongList.bigphan.repl.co";
+  var response = await get(Uri.parse(REQUEST_URL));
+  var responseData = jsonDecode(response.body);
+  responseData.forEach((songName, songData) {
+    songDictionary[songName] = Song.fromLinks(
+        songName: songName,
+        composer: songData["composer"],
+        primoPDF: songData["primo"]["pdf"],
+        primoAudio: songData["primo"]["audio"],
+        secondoPDF: songData["secondo"]["pdf"],
+        secondoAudio: songData["secondo"]["audio"],
+        bothPDF: songData["both"]["pdf"],
+        bothAudio: songData["both"]["audio"]
+    );
+  });
+}
 
