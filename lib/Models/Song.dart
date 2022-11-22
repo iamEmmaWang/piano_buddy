@@ -1,17 +1,11 @@
-import 'dart:convert';
-
-import 'package:http/http.dart';
-
-enum PianoPlay {primo, secondo, both}
-
 /// given a value of PianoPlay (primo, secondo, or both), returns a display string.
 String pianoPlayString(PianoPlay p)
 {
   switch (p)
   {
-    case PianoPlay.primo: return "primo";
-    case PianoPlay.secondo: return "secondo";
-    case PianoPlay.both: return "both";
+    case PianoPlay.first: return "1st Piano";
+    case PianoPlay.second: return "2nd Piano";
+    case PianoPlay.both: return "Both";
   }
 }
 
@@ -37,12 +31,12 @@ class Song{
     Song s = Song(songName: songName, composer: composer, modes: []);
     s.modes = [
       Mode(
-        piano: PianoPlay.primo,
+        piano: PianoPlay.first,
         pdfLink: primoPDF,
         audioLink: primoAudio
       ),
       Mode(
-        piano: PianoPlay.secondo,
+        piano: PianoPlay.second,
         pdfLink: secondoPDF,
         audioLink: secondoAudio
       ),
@@ -55,8 +49,6 @@ class Song{
     return s;
   }
 }
-
-Map<String, Song> songDictionary = {};
 
 Future<void> getSongDictionary() async {
   songDictionary.clear();
