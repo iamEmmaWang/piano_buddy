@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
+
 enum PianoPlay {first, second, both}
 
 /// given a value of PianoPlay (primo, secondo, or both), returns a display string.
@@ -50,6 +54,25 @@ class Song{
     ];
     return s;
   }
+}
+
+Future<void> getSongDictionary() async {
+  songDictionary.clear();
+  const String REQUEST_URL = "https://MasterSongList.bigphan.repl.co";
+  var response = await get(Uri.parse(REQUEST_URL));
+  var responseData = jsonDecode(response.body);
+  responseData.forEach((songName, songData) {
+    songDictionary[songName] = Song.fromLinks(
+        songName: songName,
+        composer: songData["composer"],
+        primoPDF: songData["primo"]["pdf"],
+        primoAudio: songData["primo"]["audio"],
+        secondoPDF: songData["secondo"]["pdf"],
+        secondoAudio: songData["secondo"]["audio"],
+        bothPDF: songData["both"]["pdf"],
+        bothAudio: songData["both"]["audio"]
+    );
+  });
 }
 
 Map<String, Song> songDictionary = {
