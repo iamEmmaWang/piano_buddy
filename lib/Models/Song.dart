@@ -71,7 +71,7 @@ Map<String, Song> songDictionary = {
       secondoPDF: "https://drive.google.com/uc?id=1fzJChP7ty48i-mPSyo9YvDUbhq5j8q55&export=download",
       secondoAudio: "https://drive.google.com/uc?id=1usOI5H2vkh95t6FjaTd_oMHmDwfe04ss&export=download",
       bothPDF: "https://drive.google.com/uc?id=1fzJChP7ty48i-mPSyo9YvDUbhq5j8q55&export=download",
-      bothAudio: "https://www.free-scores.com/MP3T/gurlitt-cornelius-moderato-183875.mp3"
+      bothAudio: "https://drive.google.com/uc?id=1fq3lpvy4-of3ER1GAH8kwNUQy9SujxS8&export=download"
   ),
   "Moderato": Song.fromLinks(
       songName: "Moderato",
