@@ -1,3 +1,6 @@
+import 'dart:async';
+
+
 import 'package:flutter/material.dart';
 import 'package:internet_file/internet_file.dart';
 import 'package:pdfx/pdfx.dart';
@@ -13,10 +16,11 @@ class SongPlayer extends StatefulWidget {
 }
 
 class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateMixin {
-
+  late Stream pagesStream;
   late Mode mode = widget.mode;
   late AnimationController iconController;
-  late final pdfController = PdfController(document: PdfDocument.openData(InternetFile.get(mode.pdfLink)));
+  late PdfController _pdfController;
+  late final pagesCount = _pdfController.pagesCount;
 
   @override
   void initState() {
@@ -30,6 +34,8 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
     print(MainPlayer.isPlaying);
 
     iconController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
+    _pdfController = PdfController(document: PdfDocument.openData(InternetFile.get(mode.pdfLink)));
+
   }
 
   @override
@@ -42,8 +48,17 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
         children: [
           Expanded(
             child: Center(
-              child: PdfView(
-                controller: pdfController,
+              child: StreamBuilder(
+                stream: MainPlayer.player.currentPosition,
+                builder: (context, asyncSnapshot) {
+                  final Duration? duration = asyncSnapshot.data;
+                  if(duration.toString() == "0:00:10.000000"){
+                    turnPage();
+                    return PdfView(controller: _pdfController);
+                  } else {
+                    return PdfView(controller: _pdfController);
+                  }
+                }
               )
             ),
           ),
@@ -70,6 +85,12 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
        MainPlayer.isPlaying = !MainPlayer.isPlaying;
        MainPlayer.isPlaying ? iconController.forward() : iconController.reverse();
      });
+   }
+
+   void turnPage() {
+    setState(() {
+      _pdfController.nextPage(duration: Duration(milliseconds: 250), curve: Curves.easeIn);
+    });
    }
 
 
