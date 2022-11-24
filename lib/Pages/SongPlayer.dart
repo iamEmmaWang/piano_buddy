@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ class SongPlayer extends StatefulWidget {
 class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateMixin {
   late Stream pagesStream;
   late Mode mode = widget.mode;
+  List checkpoints = [5,9,15];
+  int index = 0;
   late AnimationController iconController;
   late PdfController _pdfController;
   late final pagesCount = _pdfController.pagesCount;
@@ -57,8 +60,9 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
               stream: MainPlayer.player.currentPosition,
               builder: (context, asyncSnapshot) {
                 final Duration? duration = asyncSnapshot.data;
-                if(duration.toString() == "0:00:05.000000"){
-                  _pdfController.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+                if(duration != null && duration.inMicroseconds > checkpoints[index]*pow(10,6) && index < checkpoints.length){
+                  index++;
+                  _pdfController.nextPage(duration: const Duration(milliseconds: 1), curve: Curves.easeIn);
                 }return Text(duration.toString());
               }
           ),
@@ -87,11 +91,7 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
      });
    }
 
-   void turnPage() {
-    setState(() {
-      _pdfController.nextPage(duration: Duration(milliseconds: 250), curve: Curves.easeIn);
-    });
-   }
+
 
 
 }
