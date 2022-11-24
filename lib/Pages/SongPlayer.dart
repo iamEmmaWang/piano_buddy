@@ -48,19 +48,19 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
         children: [
           Expanded(
             child: Center(
-              child: StreamBuilder(
-                stream: MainPlayer.player.currentPosition,
-                builder: (context, asyncSnapshot) {
-                  final Duration? duration = asyncSnapshot.data;
-                  if(duration.toString() == "0:00:10.000000"){
-                    turnPage();
-                    return PdfView(controller: _pdfController);
-                  } else {
-                    return PdfView(controller: _pdfController);
-                  }
-                }
-              )
+             child: PdfView(
+               controller: _pdfController,
+             ),
             ),
+          ),
+          StreamBuilder(
+              stream: MainPlayer.player.currentPosition,
+              builder: (context, asyncSnapshot) {
+                final Duration? duration = asyncSnapshot.data;
+                if(duration.toString() == "0:00:05.000000"){
+                  _pdfController.nextPage(duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+                }return Text(duration.toString());
+              }
           ),
           Center(
             child: GestureDetector(
