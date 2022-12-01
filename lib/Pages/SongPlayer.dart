@@ -19,15 +19,18 @@ class SongPlayer extends StatefulWidget {
 class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateMixin {
   late Stream pagesStream;
   late Mode mode = widget.mode;
-  List checkpoints = [5,9,15];
   int index = 0;
   late AnimationController iconController;
   late PdfController _pdfController;
   late final pagesCount = _pdfController.pagesCount;
+  bool pdfLoaded = false;
 
   @override
   void initState() {
     super.initState();
+
+    //just for debugging
+    print("Time stamps for this mode: " + mode.turnTimeStamps.toString());
 
     //don't let audio from other screens play on this one!
     if (MainPlayer.isPlaying) MainPlayer.stop();
@@ -42,43 +45,62 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
   }
 
   @override
+  dispose() {
+    MainPlayer.stop();
+    iconController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Playing ${pianoPlayString(mode.piano)}"),
       ),
-      body: Column(
+      body:
+      Column(
         children: [
           Expanded(
             child: Center(
              child: PdfView(
+               onDocumentLoaded: (document) {
+                 setState(() {
+                   pdfLoaded = true;
+                 });
+               },
                controller: _pdfController,
              ),
             ),
           ),
-          StreamBuilder(
-              stream: MainPlayer.player.currentPosition,
-              builder: (context, asyncSnapshot) {
-                final Duration? duration = asyncSnapshot.data;
-                if(duration != null && duration.inMicroseconds > checkpoints[index]*pow(10,6) && index < checkpoints.length){
-                  index++;
-                  _pdfController.nextPage(duration: const Duration(milliseconds: 1), curve: Curves.easeIn);
-                }return Text(duration.toString());
-              }
-          ),
-          Center(
-            child: GestureDetector(
-              child: AnimatedIcon(
-                size: 100,
-                icon: AnimatedIcons.play_pause,
-                progress: iconController,
-              ),
-              onTap: () {
-                playAnimation();
-                MainPlayer.isPlaying ? MainPlayer.play() : MainPlayer.pause();
-              },
-            ),
-          ),
+          if (pdfLoaded)
+            Column(
+              children: [
+                StreamBuilder(
+                    stream: MainPlayer.player.currentPosition,
+                    builder: (context, asyncSnapshot) {
+                      final Duration? duration = asyncSnapshot.data;
+                      if(duration != null && index < mode.turnTimeStamps.length && duration.inMicroseconds > mode.turnTimeStamps[index]*pow(10,6)){
+                        index++;
+                        print("INDEX CHANGED, NEW INDEX IS " + index.toString());
+                        _pdfController.nextPage(duration: const Duration(milliseconds: 1), curve: Curves.easeIn);
+                      }return Text(duration.toString());
+                    }
+                ),
+                Center(
+                  child: GestureDetector(
+                    child: AnimatedIcon(
+                      size: 100,
+                      icon: AnimatedIcons.play_pause,
+                      progress: iconController,
+                    ),
+                    onTap: () {
+                      playAnimation();
+                      MainPlayer.isPlaying ? MainPlayer.play() : MainPlayer.pause();
+                    },
+                  ),
+                ),
+              ],
+            )
         ],
       )
     );
