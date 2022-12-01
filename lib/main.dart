@@ -1,8 +1,10 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:piano_buddy/Models/Song.dart';
 import 'package:piano_buddy/Pages/Splash.dart';
 
-void main() {
+void main() async {
+  await getSongDictionary();
   runApp(const MyApp());
 }
 
