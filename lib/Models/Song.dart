@@ -19,7 +19,7 @@ class Mode {
   PianoPlay piano;
   String pdfLink;
   String audioLink;
-  List<int> turnTimeStamps;
+  List<double> turnTimeStamps;
 
   Mode({required this.piano, required this.pdfLink, required this.audioLink, required this.turnTimeStamps});
 }
@@ -34,9 +34,9 @@ class Song{
   /// Creates a song object automatically given the song name, composer, 3 PDF links, and 3 audio links.
   /// Links provided should be download URLs for the respective files.
   static Song fromLinks({required String songName, required String composer,
-    required String primoPDF, required String primoAudio, required List<int> primoTimeStamps,
-    required String secondoPDF, required String secondoAudio, required List<int> secondoTimeStamps,
-    required String bothPDF, required String bothAudio, required List<int> bothTimeStamps,})
+    required String primoPDF, required String primoAudio, required List<double> primoTimeStamps,
+    required String secondoPDF, required String secondoAudio, required List<double> secondoTimeStamps,
+    required String bothPDF, required String bothAudio, required List<double> bothTimeStamps,})
   {
     Song s = Song(songName: songName, composer: composer, modes: []);
     s.modes = [
@@ -74,13 +74,13 @@ Future<void> getSongDictionary() async {
         composer: songData["composer"],
         primoPDF: songData["primo"]["pdf"],
         primoAudio: songData["primo"]["audio"],
-        primoTimeStamps: List<int>.from(songData["primo"]["turnTimeStamps"]),
+        primoTimeStamps: List<double>.from(songData["primo"]["turnTimeStamps"]),
         secondoPDF: songData["secondo"]["pdf"],
         secondoAudio: songData["secondo"]["audio"],
-        secondoTimeStamps: List<int>.from(songData["secondo"]["turnTimeStamps"]),
+        secondoTimeStamps: List<double>.from(songData["secondo"]["turnTimeStamps"]),
         bothPDF: songData["both"]["pdf"],
         bothAudio: songData["both"]["audio"],
-        bothTimeStamps: List<int>.from(songData["both"]["turnTimeStamps"])
+        bothTimeStamps: List<double>.from(songData["both"]["turnTimeStamps"])
     );
   });
 }
