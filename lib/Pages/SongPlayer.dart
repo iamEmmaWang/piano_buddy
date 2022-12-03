@@ -31,6 +31,7 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
 
     //just for debugging
     print("Time stamps for this mode: " + mode.turnTimeStamps.toString());
+    print("Turns for this mode: " + mode.turnPages.toString());
 
     //don't let audio from other screens play on this one!
     if (MainPlayer.isPlaying) MainPlayer.stop();
@@ -82,7 +83,19 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
                       if(duration != null && index < mode.turnTimeStamps.length && duration.inMicroseconds > mode.turnTimeStamps[index]*pow(10,6)){
                         index++;
                         print("INDEX CHANGED, NEW INDEX IS " + index.toString());
-                        _pdfController.jumpToPage(_pdfController.page + mode.turnPages[index]);
+                        if (index-1 < mode.turnPages.length) {
+                          if (mode.turnPages[index-1] > 0)
+                          {
+                            print("FLIPPING FORWARD " + mode.turnPages[index-1].toString());
+                            _pdfController.nextPage(duration: const Duration(microseconds: 1), curve: Curves.ease);
+                          }
+                          else if (mode.turnPages[index-1] < 0){
+                            {
+                              print("FLIPPING BACK " + mode.turnPages[index-1].toString());
+                              _pdfController.animateToPage(_pdfController.page + mode.turnPages[index-1], duration: const Duration(microseconds: 1), curve: Curves.ease);
+                            }
+                          }
+                        }
                       }return Text(duration.toString());
                     }
                 ),

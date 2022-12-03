@@ -79,6 +79,7 @@ Future<void> getSongDictionary() async {
   const String REQUEST_URL = "https://MasterSongList.bigphan.repl.co";
   var response = await get(Uri.parse(REQUEST_URL));
   var responseData = jsonDecode(response.body);
+  print(responseData.toString());
   responseData.forEach((songName, songData) {
     songDictionary[songName] = Song.fromLinks(
         songName: songName,

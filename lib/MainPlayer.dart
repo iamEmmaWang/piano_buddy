@@ -9,7 +9,7 @@ class MainPlayer
   static bool isPlaying = false;
 
   /// Loads a URL into the player. Automatically set to not autoplay.
-  static void loadURL(String URL) async
+  static Future<void> loadURL(String URL) async
   {
     isLoaded = false;
     player.setVolume(1);
