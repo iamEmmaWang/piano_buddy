@@ -82,7 +82,7 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
                       if(duration != null && index < mode.turnTimeStamps.length && duration.inMicroseconds > mode.turnTimeStamps[index]*pow(10,6)){
                         index++;
                         print("INDEX CHANGED, NEW INDEX IS " + index.toString());
-                        _pdfController.nextPage(duration: const Duration(milliseconds: 1), curve: Curves.easeIn);
+                        _pdfController.jumpToPage(_pdfController.page + mode.turnPages[index]);
                       }return Text(duration.toString());
                     }
                 ),

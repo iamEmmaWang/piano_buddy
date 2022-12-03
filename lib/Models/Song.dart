@@ -20,8 +20,15 @@ class Mode {
   String pdfLink;
   String audioLink;
   List<double> turnTimeStamps;
+  List<int> turnPages;
 
-  Mode({required this.piano, required this.pdfLink, required this.audioLink, required this.turnTimeStamps});
+  Mode({required this.piano, required this.pdfLink, required this.audioLink, required this.turnTimeStamps, required this.turnPages}) {
+    print("Piano: $piano");
+    print("PDF Link: $pdfLink");
+    print("Audio Link: $audioLink");
+    print("Turn Times: $turnTimeStamps");
+    print("Turn Pages: $turnPages");
+  }
 }
 
 class Song{
@@ -34,29 +41,33 @@ class Song{
   /// Creates a song object automatically given the song name, composer, 3 PDF links, and 3 audio links.
   /// Links provided should be download URLs for the respective files.
   static Song fromLinks({required String songName, required String composer,
-    required String primoPDF, required String primoAudio, required List<double> primoTimeStamps,
-    required String secondoPDF, required String secondoAudio, required List<double> secondoTimeStamps,
-    required String bothPDF, required String bothAudio, required List<double> bothTimeStamps,})
+    required String primoPDF, required String primoAudio, required List<double> primoTimeStamps, required List<int> primoTurnpages,
+    required String secondoPDF, required String secondoAudio, required List<double> secondoTimeStamps, required List<int> secondoTurnPages,
+    required String bothPDF, required String bothAudio, required List<double> bothTimeStamps, required List<int> bothTurnpages})
   {
+    print(songName);
     Song s = Song(songName: songName, composer: composer, modes: []);
     s.modes = [
       Mode(
         piano: PianoPlay.first,
         pdfLink: primoPDF,
         audioLink: primoAudio,
-          turnTimeStamps: primoTimeStamps
+        turnTimeStamps: primoTimeStamps,
+        turnPages: primoTurnpages
       ),
       Mode(
         piano: PianoPlay.second,
         pdfLink: secondoPDF,
         audioLink: secondoAudio,
-          turnTimeStamps: secondoTimeStamps
+        turnTimeStamps: secondoTimeStamps,
+        turnPages: secondoTurnPages
       ),
       Mode(
         piano: PianoPlay.both,
         pdfLink: bothPDF,
         audioLink: bothAudio,
-          turnTimeStamps: bothTimeStamps
+        turnTimeStamps: bothTimeStamps,
+        turnPages: bothTurnpages
       ),
     ];
     return s;
@@ -75,12 +86,15 @@ Future<void> getSongDictionary() async {
         primoPDF: songData["primo"]["pdf"],
         primoAudio: songData["primo"]["audio"],
         primoTimeStamps: List<double>.from(songData["primo"]["turnTimeStamps"]),
+        primoTurnpages: List<int>.from(songData["primo"]["turnPages"]),
         secondoPDF: songData["secondo"]["pdf"],
         secondoAudio: songData["secondo"]["audio"],
         secondoTimeStamps: List<double>.from(songData["secondo"]["turnTimeStamps"]),
+        secondoTurnPages: List<int>.from(songData["secondo"]["turnPages"]),
         bothPDF: songData["both"]["pdf"],
         bothAudio: songData["both"]["audio"],
-        bothTimeStamps: List<double>.from(songData["both"]["turnTimeStamps"])
+        bothTimeStamps: List<double>.from(songData["both"]["turnTimeStamps"]),
+        bothTurnpages: List<int>.from(songData["both"]["turnPages"]),
     );
   });
 }
