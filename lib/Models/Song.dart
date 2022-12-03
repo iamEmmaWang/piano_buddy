@@ -20,8 +20,9 @@ class Mode {
   String pdfLink;
   String audioLink;
   List<double> turnTimeStamps;
+  List<int> pageJumps;
 
-  Mode({required this.piano, required this.pdfLink, required this.audioLink, required this.turnTimeStamps});
+  Mode({required this.piano, required this.pdfLink, required this.audioLink, required this.turnTimeStamps, required});
 }
 
 class Song{
