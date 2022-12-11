@@ -40,7 +40,7 @@ class _SplashState extends State<Splash> {
                 padding: EdgeInsets.only(top: 450),
 
                 child: const Text(
-                  "CopyRight Concerto Buddy Inc -Emma Wang",
+                  "CopyRight Concerto Pro Inc -Emma Wang",
                   style: TextStyle(fontSize: 25, color: Colors.black),
                 ),
               ),

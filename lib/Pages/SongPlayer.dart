@@ -34,7 +34,7 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
     print("Turns for this mode: " + mode.turnPages.toString());
 
     //don't let audio from other screens play on this one!
-    if (MainPlayer.isPlaying) MainPlayer.stop();
+    MainPlayer.stop();
 
     //give player url from mode
     MainPlayer.loadURL(mode.audioLink);
@@ -42,7 +42,6 @@ class _SongPlayerState extends State<SongPlayer> with SingleTickerProviderStateM
 
     iconController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
     _pdfController = PdfController(document: PdfDocument.openData(InternetFile.get(mode.pdfLink)));
-
   }
 
   @override
