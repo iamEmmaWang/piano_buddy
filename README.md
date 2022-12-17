@@ -1,4 +1,4 @@
-# piano_buddy
+# Concerto Pro
 
 app that plays second piano for concertos
 
