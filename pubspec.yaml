@@ -38,10 +38,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   assets_audio_player: ^3.0.5
   pdfx:
-    git:
-      url: 'https://github.com/ScerIO/packages.flutter'
-      ref: '4be9de9ffed5398fd7d5f44bbb07dcd3d3f1711b'
-      path: packages/pdfx
   internet_file:
   http: ^0.13.5
 
