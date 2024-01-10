@@ -76,7 +76,7 @@ class Song{
 
 Future<void> getSongDictionary() async {
   songDictionary.clear();
-  const String REQUEST_URL = "https://7d96c0be-41f2-4012-a155-c79fa2a8521c-00-3p3z95ym4jjiw.spock.replit.dev/";
+  const String REQUEST_URL = "https://58cea50c-587c-46ab-bc3d-ba0eba430b60-00-3hnorc1yb8jf3.picard.replit.dev/";
   var response = await get(Uri.parse(REQUEST_URL));
   var responseData = jsonDecode(response.body);
   print(responseData.toString());
