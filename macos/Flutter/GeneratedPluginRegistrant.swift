@@ -8,7 +8,7 @@ import Foundation
 import assets_audio_player
 import assets_audio_player_web
 import device_info_plus_macos
-import path_provider_macos
+import path_provider_foundation
 import pdfx
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
