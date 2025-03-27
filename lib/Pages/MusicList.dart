@@ -13,7 +13,6 @@ class MusicList extends StatefulWidget {
 
 class _MusicListState extends State<MusicList> {
 
-}
 
   @override
   Widget build(BuildContext context) {
